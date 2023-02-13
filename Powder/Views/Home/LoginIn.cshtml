@@ -1,0 +1,32 @@
+﻿@model UserLoginModel
+
+<form asp-action="LoginIn" method="post" class="p-4 w-50 mx-auto">
+    <div class="Form-group">
+        <label>User Nam : </label>
+        <span asp-validation-for="@Model.UserName" class="text-danger"></span>
+        <input type="text" asp-for="@Model.UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Password :</label>
+        <span asp-validation-for="@Model.Key" class="text-danger"></span>
+        <input type="password" asp-for="@Model.Key" class="form-control" />
+    </div>
+    
+    <div class="form-check">
+        <input type="checkbox" asp-for="@Model.RememberMe" class="form-check-input" />
+        <label asp-for="RememberMe" class="form-check-label">Rememeber Me.</label>
+    </div>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger" ></div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-info">Login In</button>
+    </div>
+
+</form>
+
+@section JavaScript{
+    <script src="~/jqueryvalid/jquery.validate.min.js"></script>
+    <script src="~/jqueryunob/jquery.validate.unobtrusive.min.js"></script>
+
+}

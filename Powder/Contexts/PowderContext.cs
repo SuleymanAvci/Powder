@@ -1,13 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Powder.Entities;
 
 namespace Powder.Contexts
 {
-    public class PowderContext:DbContext
+    public class PowderContext:IdentityDbContext<AppUser>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("server=(localdb)\\MSSQLLocalDb; database=Powder; integrated security=true;");
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -19,6 +21,7 @@ namespace Powder.Contexts
                 i.ProductId,
                 i.CategoryId,
             }).IsUnique();
+            base.OnModelCreating(modelBuilder);
         }
         public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<Product> Products { get; set; }

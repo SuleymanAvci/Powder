@@ -9,6 +9,22 @@
         "js/bootstrap.min.js",
         "css/bootstrap.min.css"
       ]
+    },
+    {
+      "library": "jquery-validate@1.19.5",
+      "destination": "wwwroot/jqueryValid/",
+      "files": [ "jquery.validate.min.js" ]
+    },
+    {
+      "library": "jquery-validation-unobtrusive@4.0.0",
+      "destination": "wwwroot/jqueryUnob/",
+      "files": [ "jquery.validate.unobtrusive.min.js" ]
+    },
+    {
+      "library": "jquery@3.6.3",
+      "destination": "wwwroot/jquery",
+      "files": ["jquery.min.js"]
     }
+
   ]
 }
