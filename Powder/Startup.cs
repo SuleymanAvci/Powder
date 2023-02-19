@@ -39,7 +39,7 @@ namespace Powder
 
             services.ConfigureApplicationCookie(opt =>
             {
-                opt.LoginPath = new PathString("/Home/GirisYap");
+                opt.LoginPath = new PathString("/Home/LoginIn");
                 opt.Cookie.Name = "PowderAsp";
                 opt.Cookie.HttpOnly = true;
                 opt.Cookie.SameSite = SameSiteMode.Strict;
