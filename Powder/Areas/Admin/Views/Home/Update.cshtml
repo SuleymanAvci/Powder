@@ -1,7 +1,7 @@
 ﻿@model ProductUpdateModel
 
 <form asp-action="Update" asp-controller="Home" asp-area="Admin" method="post" class="w-75 mx-auto p-3" enctype="multipart/form-data">
-    <div type="hidden" asp-for="@Model.Id"></div>
+    <input type="hidden" asp-for="@Model.Id">
     <div class="form-group">
         <label>Ürünün Adı:</label>
         <span asp-validation-for="@Model.Name" class="text-danger"></span>
