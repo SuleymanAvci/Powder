@@ -15,7 +15,7 @@
                         <strong>Kategoriler:</strong> <getCategoryName product-id="@Model.Id"></getCategoryName>                    
                     <br />
                         @Model.Price</p>
-                    <a href="#" class="btn btn-primary float-end">Sepete Ekle</a>
+                    <a asp-action="AddBasket" asp-controller="Home" asp-route-id="@Model.Id" class="btn btn-primary float-end">Sepete Ekle</a>
                     <a asp-action="Index" asp-controller="Home" class="btn btn-danger float-end">Geni Dön</a>
                 </div>
             </div>

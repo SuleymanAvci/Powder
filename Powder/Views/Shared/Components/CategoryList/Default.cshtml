@@ -1,10 +1,18 @@
 ﻿@model List<Category>
 
-    <div class="list-group">
-        @foreach (var category in Model)
+<div class="list-group">
+
+    <a asp-action="Index" asp-controller="Home" class="list-group-item list-group-item-action
+            @(ViewBag.CategoryId==null?"active":"")">
+        Tüm Kategoriler
+    </a>
+
+    @foreach (var category in Model)
     {
-        <a href="#" class="list-group-item list-group-item-action">
+        <a asp-action="Index" asp-controller="Home" asp-route-categoryId="@category.Id" class="list-group-item list-group-item-action
+            @(ViewBag.CategoryId?.ToString() == category.Id.ToString()?"active":"")">
             @category.Name
         </a>
+
     }
-    </div>
+</div> 

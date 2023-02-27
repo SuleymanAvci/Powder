@@ -6,7 +6,7 @@ using Powder.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 
 namespace Powder.Areas.Admin.Controllers
 {
@@ -15,10 +15,12 @@ namespace Powder.Areas.Admin.Controllers
     public class HomeController : Controller
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public HomeController(IProductRepository productRepository)
+        public HomeController(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public IActionResult Index()
@@ -41,7 +43,7 @@ namespace Powder.Areas.Admin.Controllers
                 {
                     var extension = Path.GetExtension(model.Image.FileName);
                     var newImageName = Guid.NewGuid() + extension;
-                    var uploadPlace = Path.Combine(Directory.GetCurrentDirectory(),"/git/Powder/Powder/wwwroot/img/" + newImageName);
+                    var uploadPlace = Path.Combine(Directory.GetCurrentDirectory(), "/git/Powder/Powder/wwwroot/img/" + newImageName);
 
                     var stream = new FileStream(uploadPlace, FileMode.Create);
                     model.Image.CopyTo(stream);
@@ -60,7 +62,7 @@ namespace Powder.Areas.Admin.Controllers
             var getProduct = _productRepository.Get(id);
             ProductUpdateModel model = new ProductUpdateModel
             {
-                Id= getProduct.Id,
+                Id = getProduct.Id,
                 Name = getProduct.Name,
                 Price = getProduct.Price
             };
@@ -70,7 +72,7 @@ namespace Powder.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Update(ProductUpdateModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var updatedProduct = _productRepository.Get(model.Id);
                 if (model.Image != null)
@@ -96,6 +98,53 @@ namespace Powder.Areas.Admin.Controllers
             _productRepository.Delete(new Product { Id = id });
             return RedirectToAction("index");
         }
+
+        public IActionResult AssignCategory(int id)
+        {
+            var productAssignCategories = _productRepository.GetCategories(id).Select(I => I.Name);
+            var categories = _categoryRepository.GetAll();
+
+            TempData["ProductId"] = id;
+
+            List<CategoryAssignModel> list = new List<CategoryAssignModel>();
+
+            foreach (var item in categories)
+            {
+                CategoryAssignModel model = new CategoryAssignModel();
+                model.CategoryId = item.Id;
+                model.CategoryName = item.Name;
+                model.IsThere = productAssignCategories.Contains(item.Name);
+
+                list.Add(model);
+            }
+            return View(list);
+        }
+
+        [HttpPost]
+        public IActionResult AssignCategory(List<CategoryAssignModel> list)
+        {
+            int productId = (int)TempData["ProductId"];
+
+            foreach (var item in list)
+            {
+                if (item.IsThere)
+                {
+                    _productRepository.AddCategory(new ProductCategory
+                    {
+                        CategoryId = item.CategoryId,
+                        ProductId = productId
+                    });
+                }
+                else
+                {
+                    _productRepository.DeleteCategory(new ProductCategory
+                    {
+                        CategoryId = item.CategoryId,
+                        ProductId = productId
+                    });
+                }
+            }
+            return RedirectToAction("Index");
+        }
     }
 }
-   

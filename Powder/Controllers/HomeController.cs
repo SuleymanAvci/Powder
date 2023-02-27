@@ -12,18 +12,19 @@ namespace Powder.Controllers
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IProductRepository _productRepository;
+        private readonly IBasketRepository _basketRepository;
 
-        public HomeController(IProductRepository productRepository, SignInManager<AppUser> signInManager)
+        public HomeController(IProductRepository productRepository, SignInManager<AppUser> signInManager, IBasketRepository basketRepository)
         {
             _productRepository = productRepository;
             _signInManager = signInManager;
+            _basketRepository = basketRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? categoryId)
         {
-
-            var products=_productRepository.GetAll();
-            return View(products);
+            ViewBag.CategoryId = categoryId;
+            return View();
         }
 
         public IActionResult ProductDetail(int id)
@@ -52,6 +53,14 @@ namespace Powder.Controllers
             return View(model);
         }
 
+
+        public IActionResult AddBasket(int id)
+        {
+            var product=_productRepository.Get(id);
+            _basketRepository.BasketAdd(product);
+            TempData["notice"] = "Product add to the basket";
+            return RedirectToAction("Index");
+        }
 
     }
 

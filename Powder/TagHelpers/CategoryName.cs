@@ -17,7 +17,7 @@ namespace Powder.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             string data = "";
-            var getCategories = _productRepository.GetAllCategories(ProductId).Select(I => I.Name);
+            var getCategories = _productRepository.GetCategories(ProductId).Select(I => I.Name);
             foreach (var item in getCategories)
             {
                 data += item+" ";
