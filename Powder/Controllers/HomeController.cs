@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Powder.Entities;
@@ -53,6 +54,28 @@ namespace Powder.Controllers
             return View(model);
         }
 
+        public IActionResult Basket()
+        {
+            return View(_basketRepository.GetBasketProduct());
+        }
+
+        public IActionResult RemoveBasket(int id)
+        {
+            var removeBasket=_productRepository.Get(id);
+            _basketRepository.BasketRemove(removeBasket);
+            return RedirectToAction("Basket");
+        }
+        public IActionResult EmptyBasket(decimal price)
+        {
+            _basketRepository.BasketEmpty();
+            return RedirectToAction("Thanks", new {price=price});
+        }
+
+        public IActionResult Thanks(decimal price)
+        {
+            ViewBag.Price = price;
+            return View();
+        }
 
         public IActionResult AddBasket(int id)
         {
@@ -62,6 +85,19 @@ namespace Powder.Controllers
             return RedirectToAction("Index");
         }
 
+        public IActionResult NotFound(int code)
+        {
+            ViewBag.Code = code;
+            return View();
+        }
+
+        [Route("/Error")]
+        public IActionResult Error()
+        {
+            var errorInfo=HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            
+            return View();
+        }
     }
 
 }

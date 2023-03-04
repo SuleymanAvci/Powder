@@ -61,6 +61,9 @@ namespace Powder
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Home/NotFound","?code={0}");
+
+            //app.UseExceptionHandler("/Error");
             IdentityInitializer.CreateAdmin(userManager, roleManager);
             app.UseRouting();
 

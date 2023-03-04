@@ -8,7 +8,8 @@ namespace Powder.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=(localdb)\\MSSQLLocalDb; database=Powder; integrated security=true;");
+            optionsBuilder.UseSqlServer("server=(localdb)\\MSSQLLocalDb; database=Powder; integrated security=false;");
+            //optionsBuilder.UseSqlServer("server=(localdb)\\MSSQLLocalDb; database=Powder; user id=s; password=1;");
             base.OnConfiguring(optionsBuilder);
         }
 

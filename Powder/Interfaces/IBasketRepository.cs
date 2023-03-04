@@ -1,4 +1,5 @@
 ﻿using Powder.Entities;
+using System.Collections.Generic;
 
 namespace Powder.Interfaces
 {
@@ -6,5 +7,7 @@ namespace Powder.Interfaces
     {
         void BasketAdd(Product product);
         void BasketRemove(Product product);
+        List<Product> GetBasketProduct();
+        void BasketEmpty();
     }
 }

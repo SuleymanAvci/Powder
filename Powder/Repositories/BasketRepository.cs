@@ -23,7 +23,12 @@ namespace Powder.Repositories
                 incomingList = new List<Product>();
                 incomingList.Add(product);
             }
-            else incomingList.Add(product);
+            else
+            {
+                incomingList.Add(product);
+            }
+            _httpContextAccessor.HttpContext.Session.SetObject("basket", incomingList);
+
         }
 
         public void BasketRemove(Product product)
@@ -37,6 +42,11 @@ namespace Powder.Repositories
         public List<Product> GetBasketProduct()
         {
             return _httpContextAccessor.HttpContext.Session.GetObject<List<Product>>("basket");
+        }
+
+        public void BasketEmpty()
+        {
+            _httpContextAccessor.HttpContext.Session.Remove("basket");
         }
     }
 }
